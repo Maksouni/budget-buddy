@@ -85,13 +85,13 @@ function App() {
   };
 
   const handleDeleteExpence = (id: number) => {
-    const expenceToDelete = expences.find((expence) => expence.id === id);
+    // const expenceToDelete = expences.find((expence) => expence.id === id);
 
-    // Проверка, что расходы не пустые
-    if (expenceToDelete && (!expenceToDelete.name || !expenceToDelete.cost)) {
-      alert("Невозможно удалить строку с пустыми полями");
-      return;
-    }
+    // // Проверка, что расходы не пустые
+    // if (expenceToDelete && (!expenceToDelete.name || !expenceToDelete.cost)) {
+    //   alert("Невозможно удалить строку с пустыми полями");
+    //   return;
+    // }
 
     setExpences(expences.filter((expence) => expence.id !== id));
   };
@@ -129,12 +129,10 @@ function App() {
   return (
     <ThemeProvider theme={getTheme(darkMode ? "dark" : "light")}>
       <div
-        className="flex flex-col items-center justify-center min-h-screen "
+        className="flex flex-col items-center justify-center min-h-screen overflow-hidden"
         style={{
           backgroundColor: darkMode ? "#121212" : "#fafafa",
           color: darkMode ? "#ffffff" : "#000000",
-          overflow: "hidden", // Убирает белые полосы
-          height: "100vh", // Используем всю высоту экрана
         }}
       >
         <div className="fixed top-0 left-0">
@@ -142,12 +140,13 @@ function App() {
             <DarkMode color="disabled" />
           </IconButton>
         </div>
-
-        <div className="m-15 overflow-y-auto max-w-full">
-          <Typography variant="h3" sx={{ m: "auto", textAlign: "center" }}>
-            Budget Buddy
-          </Typography>
-
+        <Typography
+          variant="h3"
+          sx={{ marginInline: "auto", marginTop: "3rem", textAlign: "center" }}
+        >
+          Budget Buddy
+        </Typography>
+        <div className="m-15 mt-3 overflow-y-auto max-w-full">
           <FormControl sx={{ m: 2, marginLeft: 0, marginTop: 3 }}>
             <InputLabel htmlFor="outlined-adornment-amount">Бюджет</InputLabel>
             <OutlinedInput

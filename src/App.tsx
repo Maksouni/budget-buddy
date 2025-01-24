@@ -152,7 +152,7 @@ function App() {
             <OutlinedInput
               id="outlined-adornment-amount"
               startAdornment={
-                <InputAdornment position="start">&#x20BD;</InputAdornment>
+                <InputAdornment position="start">₽</InputAdornment>
               }
               label="Бюджет"
               value={budget}
@@ -191,9 +191,7 @@ function App() {
                       <FormControl fullWidth error={!expence.cost}>
                         <OutlinedInput
                           startAdornment={
-                            <InputAdornment position="start">
-                              &#x20BD;
-                            </InputAdornment>
+                            <InputAdornment position="start">₽</InputAdornment>
                           }
                           value={expence.cost}
                           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -235,9 +233,7 @@ function App() {
                     <FormControl fullWidth error={!!error.cost}>
                       <OutlinedInput
                         startAdornment={
-                          <InputAdornment position="start">
-                            &#x20BD;
-                          </InputAdornment>
+                          <InputAdornment position="start">₽</InputAdornment>
                         }
                         value={newExpence.cost}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -268,7 +264,7 @@ function App() {
           sx={{ marginInline: "auto", marginBottom: "1rem" }}
         >
           Остаток: {remainingBudget >= 0 ? remainingBudget.toFixed(2) : "0.00"}{" "}
-          &#x20BD;
+          ₽
         </Typography>
       </div>
     </ThemeProvider>

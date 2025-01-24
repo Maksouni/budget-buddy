@@ -20,7 +20,7 @@ export function getTheme(mode: "light" | "dark") {
       },
     },
     typography: {
-      fontFamily: '"Liberation Mono", monospace', // Устанавливаем шрифт
+      fontFamily: '"Liberation Mono", "Roboto", "Arial", sans-serif',
     },
   });
 }

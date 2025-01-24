@@ -1,4 +1,7 @@
 @import "tailwindcss";
+body {
+  font-family: "Liberation Mono", "Roboto", monospace;
+}
 /* :root {
   font-family: "Liberation Mono";
   line-height: 1.5;

@@ -18,7 +18,7 @@ import {
   Typography,
 } from "@mui/material";
 import { getTheme } from "./theme";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DarkMode } from "@mui/icons-material";
 
 type Expence = {
@@ -28,9 +28,14 @@ type Expence = {
 };
 
 function App() {
-  const [darkMode, setDarkMode] = useState(true);
+  // Загружаем сохранённые значения из localStorage
+  const [darkMode, setDarkMode] = useState<boolean>(
+    () => JSON.parse(localStorage.getItem("darkMode") || "true") // true по умолчанию
+  );
   const [budget, setBudget] = useState<string>("");
-  const [expences, setExpences] = useState<Expence[]>([]);
+  const [expences, setExpences] = useState<Expence[]>(
+    () => JSON.parse(localStorage.getItem("expences") || "[]") // Пустой массив по умолчанию
+  );
   const [newExpence, setNewExpence] = useState<Expence>({
     id: Date.now(),
     name: "",
@@ -41,8 +46,18 @@ function App() {
     cost: "",
   });
 
+  // Сохраняем тему в localStorage при изменении
+  useEffect(() => {
+    localStorage.setItem("darkMode", JSON.stringify(darkMode));
+  }, [darkMode]);
+
+  // Сохраняем список расходов в localStorage при изменении
+  useEffect(() => {
+    localStorage.setItem("expences", JSON.stringify(expences));
+  }, [expences]);
+
   const handleThemeToggle = () => {
-    setDarkMode((prevMode) => !prevMode); // Переключаем режим
+    setDarkMode((prevMode) => !prevMode);
   };
 
   const handleBudgetChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -70,7 +85,6 @@ function App() {
   };
 
   const handleAddExpence = () => {
-    // Проверка на пустые поля при добавлении нового элемента
     if (!newExpence.name || !newExpence.cost) {
       setError({
         name: !newExpence.name ? "Введите название" : "",
@@ -80,19 +94,11 @@ function App() {
     }
 
     setExpences([...expences, newExpence]);
-    setNewExpence({ id: Date.now(), name: "", cost: "" }); // Очищает поля ввода после добавления
-    setError({ name: "", cost: "" }); // Сбрасываем ошибки
+    setNewExpence({ id: Date.now(), name: "", cost: "" });
+    setError({ name: "", cost: "" });
   };
 
   const handleDeleteExpence = (id: number) => {
-    // const expenceToDelete = expences.find((expence) => expence.id === id);
-
-    // // Проверка, что расходы не пустые
-    // if (expenceToDelete && (!expenceToDelete.name || !expenceToDelete.cost)) {
-    //   alert("Невозможно удалить строку с пустыми полями");
-    //   return;
-    // }
-
     setExpences(expences.filter((expence) => expence.id !== id));
   };
 
@@ -117,13 +123,11 @@ function App() {
     );
   };
 
-  // Подсчет общей стоимости всех расходов
   const totalExpences = expences.reduce(
     (total, expence) => total + (parseFloat(expence.cost) || 0),
     0
   );
 
-  // Остаток
   const remainingBudget = parseFloat(budget) - totalExpences;
 
   return (
@@ -146,7 +150,7 @@ function App() {
         >
           Budget Buddy
         </Typography>
-        <div className="m-15 mt-3 overflow-y-auto max-w-full">
+        <div className="md:m-15 mb-15 mt-3 overflow-y-auto max-w-full">
           <FormControl sx={{ m: 2, marginLeft: 0, marginTop: 3 }}>
             <InputLabel htmlFor="outlined-adornment-amount">Бюджет</InputLabel>
             <OutlinedInput
@@ -183,7 +187,7 @@ function App() {
                         }
                         fullWidth
                         variant="outlined"
-                        error={!expence.name} // Если поле пустое, показываем ошибку
+                        error={!expence.name}
                         helperText={!expence.name ? "Введите название" : ""}
                       />
                     </TableCell>
@@ -214,7 +218,6 @@ function App() {
                     </TableCell>
                   </TableRow>
                 ))}
-                {/* Строка для добавления нового элемента */}
                 <TableRow>
                   <TableCell>
                     <TextField

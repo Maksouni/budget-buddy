@@ -32,7 +32,9 @@ function App() {
   const [darkMode, setDarkMode] = useState<boolean>(
     () => JSON.parse(localStorage.getItem("darkMode") || "true") // true по умолчанию
   );
-  const [budget, setBudget] = useState<string>("");
+  const [budget, setBudget] = useState<string>(
+    () => localStorage.getItem("budget") || ""
+  );
   const [expences, setExpences] = useState<Expence[]>(
     () => JSON.parse(localStorage.getItem("expences") || "[]") // Пустой массив по умолчанию
   );
@@ -55,6 +57,11 @@ function App() {
   useEffect(() => {
     localStorage.setItem("expences", JSON.stringify(expences));
   }, [expences]);
+
+  // Сохраняем бюджет в localStorage при изменении
+  useEffect(() => {
+    localStorage.setItem("budget", budget);
+  }, [budget]);
 
   const handleThemeToggle = () => {
     setDarkMode((prevMode) => !prevMode);
@@ -92,7 +99,6 @@ function App() {
       });
       return;
     }
-
     setExpences([...expences, newExpence]);
     setNewExpence({ id: Date.now(), name: "", cost: "" });
     setError({ name: "", cost: "" });
@@ -163,7 +169,6 @@ function App() {
               onChange={handleBudgetChange}
             />
           </FormControl>
-
           <TableContainer
             component={Paper}
             sx={{ maxWidth: "35rem", width: "100%", overflowX: "auto" }}

@@ -271,8 +271,7 @@ function App() {
           variant="h5"
           sx={{ marginInline: "auto", marginBottom: "1rem" }}
         >
-          Остаток: {remainingBudget >= 0 ? remainingBudget.toFixed(2) : "0.00"}{" "}
-          ₽
+          Остаток: {remainingBudget.toFixed(2)} ₽
         </Typography>
       </div>
     </ThemeProvider>
